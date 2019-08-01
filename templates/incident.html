@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <br>
+    <div class="container">
+        <div class="row w-100">
+            <table class="table table-bordered" id="incidents">
+                <thead class="thead-dark">
+                <tr >
+                    <th scope="col" onclick="sortTable(1)">#</th>
+                    <th scope="col" onclick="sortTable(0)">Критичность</th>
+                    <th scope="col">Время создания инцидента</th>
+                    <th scope="col">Время выполнения</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Дополнительная информация</th>
+                    <th scope="col">Контрагент</th>
+                    <th scope="col">Прогноз</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for post in posts %}
+                        <tr id={{ post.id }}>
+                            <th scope="row">{{ post.id }}</th>
+                            {% if  post.priority == 1 %}
+                                <td><button type="button" class="btn btn-outline-primary btn-lg">Низкая</button></td>
+                            {% elif post.priority == 4%}
+                                <td><button type="button" class="btn btn-outline-danger btn-lg">Критично</button></td>
+                            {% else %}
+                                <td><button type="button" class="btn btn-outline-info btn-lg">Стандартно</button></td>
+                            {% endif %}
+                            <td>{{ post.cdate }}</td>
+                            <td>{{ post.edate }}</td>
+                            <td>{{ post.speech_to_text }}</td>
+                            <td>
+                                  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Дополнительно</button>
+
+                                  <!-- Modal -->
+                                  <div class="modal fade" id="myModal" role="dialog">
+                                    <div class="modal-dialog">
+
+                                      <!-- Modal content-->
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Дополнительная информация об инциденте</h5>
+                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <p>{{ post.idesc }}</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            </td>
+                            <td>{{ post.agent_name }}</td>
+                            <td>{{ post.sms_text }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
